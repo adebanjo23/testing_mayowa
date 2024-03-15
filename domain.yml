@@ -1,0 +1,337 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - pregnant_flow_start
+  - timing
+  - nutrition
+  - behaviors
+  - something_else
+  - affirm
+  - deny
+  - nutrition_food_types
+  - nutrition_meal_plans
+  - nutrition_recipes
+  - nutrition_vitamins
+  - behaviors_exercise
+  - behaviors_smoking
+  - behaviors_stress
+  - behaviors_vitamins
+  - conception_flow_start
+  - conception_flow_sure
+  - conception_flow_not_sure
+  - inform
+  - nutrition_flow_start
+  - nutrition_conceive
+  - nutrition_pregnant
+  - nutrition_delivered
+  - breastfeeding_flow_start
+  - breastfeeding_position_good
+  - breastfeeding_more_help
+  - dad_support_flow_start
+  - dad_support_nutrition
+  - dad_support_recovery
+  - dad_support_health
+
+entities:
+- period_date
+- period_duration
+- nutrition_stage
+- meal_plans_time
+- partner_type
+- stage
+
+slots:
+  period_date:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        not_intent:
+          - conception_flow_sure
+          - conception_flow_not_sure
+          - inform
+        conditions:
+        - active_loop: conception_date_form
+
+  period_duration:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: period_duration
+        conditions:
+          - active_loop: conception_date_form
+
+  nutrition_stage:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: nutrition_stage
+
+  available_food:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_text
+        not_intent:
+          - inform
+          - nutrition_recipes
+          - nutrition_meal_plans
+        conditions:
+          - active_loop: available_food_form
+          - active_loop: meal_plans_form
+
+  meal_plans_time:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: meal_plans_time
+
+  partner_type:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: partner_type
+
+  stage:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: stage
+
+
+responses:
+  ################################# INITIAL RESPONSES
+  utter_greet:
+  - text: "Hey! How are you?"
+  utter_goodbye:
+  - text: "Bye"
+  utter_good:
+  - text: "Everything is fine"
+  utter_deny:
+  - text: "Can I help you with anything else?"
+  ################################# PREGNANT FLOW RESPONSE
+  utter_pregnant_flow_start:
+  - text: "Would you like to learn more about:"
+    buttons:
+      - title: "Timing and Menstrual Cycle"
+        payload: '/timing'
+      - title: "Nutrition and Diet"
+        payload: '/nutrition'
+      - title: "Behaviors & Habits / Lifestyle"
+        payload: '/behaviors'
+      - title: "Something Else"
+        payload: '/something_else'
+  utter_something_else:
+    - text: "What else can i help you with?"
+  ################################# PREGNANT FLOW TIMING AND MENSTRUAL CYCLE RESPONSE
+  utter_timing_video:
+  - text: "https://www.youtube.com/watch?v=D0-Vaqf0P6A"
+  utter_timing_continue:
+    - text: "Would you like to learn your best time to conceive next month"
+      buttons:
+        - title: "Yes"
+          payload: '/affirm'
+        - title: "No"
+          payload: '/deny'
+  ################################# PREGNANT FLOW NUTRITION RESPONSE
+  utter_nutrition_start:
+    - text: "Food and supplements like vitamins can help your body get ready to conceive. Are you interested in …"
+      buttons:
+        - title: "Food Types"
+          payload: '/food_types'
+        - title: "Meal Plans"
+          payload: '/meal_plans'
+        - title: "Recipes"
+          payload: '/recipes'
+        - title: "Vitamins"
+          payload: '/vitamins'
+################################# PREGNANT FLOW BEHAVIORS RESPONSE
+  utter_behaviors_start:
+    - text: ""
+      buttons:
+        - title: "Exercise"
+          payload: '/behaviors_exercise'
+        - title: "Stress Management"
+          payload: '/behaviors_stress'
+        - title: "Smoking & Alcohol"
+          payload: '/behaviors_smoking'
+        - title: "Vitamins"
+          payload: '/behaviors_vitamins'
+        - title: "Something Else"
+          payload: '/something_else'
+  utter_behaviors_exercise_video:
+    - text: "https://www.youtube.com/watch?v=t-Sd0G1kZ1g"
+  utter_behaviors_stress_video:
+    - text: "https://www.youtube.com/watch?v=f0JtKUOSK8M"
+  utter_behaviors_smoking_video:
+    - text: "https://www.youtube.com/watch?v=f0JtKUOSK8M"
+  utter_behaviors_vitamins_video:
+    - text: "https://www.youtube.com/watch?v=VlXq5RuKTAs"
+  ################################# CONCEPTION FLOW RESPONSE
+  utter_conception_flow_start_1:
+    - text: "Let’s estimate your best time to get pregnant, (by answering a few questions about your period)"
+  utter_conception_flow_start_2:
+    - text: "Do you remember the date your last period ended?"
+      buttons:
+        - title: "Yes"
+          payload: '/conception_flow_sure'
+        - title: "Don't Know"
+          payload: '/conception_flow_not_sure'
+        - title: "Uncertain"
+          payload: '/conception_flow_not_sure'
+        - title: "Can't remember"
+          payload: '/conception_flow_not_sure'
+  ################################# CONCEPTION DATE FORM IS ACTIVE
+  utter_ask_conception_date_form_period_date:
+  - text: "Please provide me with the date of your last period, you can also provide me with your best guess"
+  utter_ask_conception_date_form_period_duration:
+  - text: "Is your period usually? "
+    buttons:
+      - title: "Less than 4 days"
+        payload: '/inform{"period_duration":"4"}'
+      - title: "4-5 days"
+        payload: '/inform{"period_duration":"4-5"}'
+      - title: "More than 5 days"
+        payload: '/inform{"period_duration":"5+"}'
+  ################################# NUTRITION FLOW START RESPONSE
+  utter_nutrition_flow_start:
+    - text: "Eating healthy is key along the maternal health journey. Are you interested what to eat…?"
+      buttons:
+        - title: "To conceive"
+          payload: '/nutrition_conceive{"nutrition_stage":"to_conceive"}'
+        - title: "While Pregnant"
+          payload: '/nutrition_pregnant{"nutrition_stage":"pregnant"}'
+        - title: "Just delivered"
+          payload: '/nutrition_delivered{"nutrition_stage":"just_delivered"}'
+        - title: "Something Else"
+          payload: '/something_else'
+  ################################# NUTRITION FLOW TO CONCEIVE RESPONSE
+  utter_nutrition_conceive:
+    - text: "Food and supplements can help your body get ready to conceive. Are you interested in "
+      buttons:
+        - title: "Food Types"
+          payload: '/nutrition_food_types'
+        - title: "Vitamins"
+          payload: '/nutrition_vitamins'
+        - title: "Recipes"
+          payload: '/nutrition_recipes'
+        - title: "Meal Plans"
+          payload: '/nutrition_meal_plans'
+  ################################# NUTRITION CONCEIVE VIDEO RESPONSE
+  utter_nutrition_food_types_video:
+    - text: "https://www.youtube.com/watch?v=VlXq5RuKTAs"
+  utter_nutrition_vitamins_video:
+    - text: "https://www.youtube.com/watch?v=VlXq5RuKTAs"
+  ################################# NUTRITION CONCEIVE EXTRA RESPONSE
+  utter_ask_available_food_form_available_food:
+    - text: "What do you like to eat, or what’s available in your fridge?"
+  utter_ask_meal_plans_form_available_food:
+    - text: "What do you like to eat, or what’s available in your fridge?"
+  utter_ask_meal_plans_form_meal_plans_time:
+    - text: "How long do you want to plan meals for?"
+      buttons:
+        - title: "2 days"
+          payload: '/inform{"meal_plans_time":"2"}'
+        - title: "3 days"
+          payload: '/inform{"meal_plans_time":"3"}'
+        - title: "5 days"
+          payload: '/inform{"meal_plans_time":"5"}'
+  ################################# BREASTFEEDING FLOW RESPONSE
+  utter_breastfeeding_flow_start:
+    - text: "Here is a breastfeeding position that might work for you if sitting up is uncomfortable"
+  utter_breastfeeding_flow_image:
+    - text: "https://drive.google.com/file/d/1qhxFh5lvBIM3mNf3gQ_K6cxI4lo6qr97/view?usp=sharing"
+  utter_breastfeeding_flow_video:
+    - text: "https://www.youtube.com/watch?v=e4RIx0f4VGw"
+  utter_breastfeeding_flow_continue:
+    - text: "How did that position feel? "
+      buttons:
+        - title: "Good for now"
+          payload: '/breastfeeding_position_good'
+        - title: "I need more help"
+          payload: '/breastfeeding_more_help'
+  utter_breastfeeding_position_good:
+    - text: "Great, make sure to rest, hydrate and eat healthy to support your breastfeeding journey. Let me know if you want to talk about anything else."
+  utter_breastfeeding_more_help:
+    - text: "Here’s the Laid Back position and an instructional video"
+  utter_breastfeeding_more_help_image:
+    - text: "https://drive.google.com/file/d/1qhxFh5lvBIM3mNf3gQ_K6cxI4lo6qr97/view?usp=sharing"
+  utter_breastfeeding_more_help_video:
+    - text: "https://www.youtube.com/watch?v=KYRg8DTbZCc"
+  ############################################### DAD SUPPORT FLOW RESPONSE
+  utter_dad_support_flow_start:
+    - text: "When your {partner_type} is {stage} it’s important to be supportive, would you like to talk about ways to support their "
+      buttons:
+        - title: "Nutrition"
+          payload: '/dad_support_nutrition'
+        - title: "Physical Recovery"
+          payload: '/dad_support_recovery'
+        - title: "Mental Health"
+          payload: '/dad_support_health'
+        - title: "Something Else"
+          payload: '/something_else'
+  utter_dad_support_nutrition:
+    - text: "Helping your partner stay nourished & healthy is incredibly supportive, would you like to learn about"
+      buttons:
+        - title: "Food Types"
+          payload: '/nutrition_food_types'
+        - title: "Vitamins"
+          payload: '/nutrition_vitamins'
+        - title: "Recipes"
+          payload: '/nutrition_recipes'
+        - title: "Meal Plans"
+          payload: '/nutrition_meal_plans'
+  utter_dad_support_recovery:
+    - text: '''When your partner is recently postpartum, there are lots of things you can do to help her rest and recover: 
+                Take the Lead on Household Tasks
+                Encourage Rest and Sleep
+                Provide Emotional Support
+                Encourage Healthy Eating and Hydration
+                Schedule and Attend Postpartum Checkups
+                Recognize Signs of Postpartum Complications
+                Would you like to explore any of these more in-depth?'''
+  utter_dad_support_health:
+    - text: "Would you like to connect to the White House Maternal Mental Health Hotline to get immediate mental health support?"
+      buttons:
+        - title: "Yes"
+          payload: '/affirm'
+        - title: "No"
+          payload: '/deny'
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+actions:
+  - action_timing_cycle
+  - action_behaviors_exercise
+  - action_behaviors_stress
+  - action_behaviors_smoking
+  - action_behaviors_vitamins
+  - action_conception_date
+  - action_nutrition_food_types
+  - action_nutrition_vitamins
+  - action_nutrition_recipes
+  - action_nutrition_meal_plans
+  - action_reset_slots
+
+forms:
+  conception_date_form:
+    required_slots:
+    - period_date
+    - period_duration
+  available_food_form:
+    required_slots:
+      - available_food
+  meal_plans_form:
+    required_slots:
+      - meal_plans_time
+      - available_food

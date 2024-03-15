@@ -1,0 +1,148 @@
+version: "3.1"
+
+nlu:
+#################################### INITIAL INTENTS
+- intent: greet
+  examples: |
+    - hey
+    - hello
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+- intent: affirm
+  examples: |
+    - yes
+    - correct
+- intent: deny
+  examples: |
+    - no
+    - not really
+############################################# START PREGNANT FLOW
+- intent: pregnant_flow_start
+  examples: |
+    - what is the best time to conceive
+    - what is the main time to conceive
+########################################## PREGNANT FLOW BUTTONS
+- intent: timing
+  examples: |
+    - Timing and Menstrual Cycle
+    - Timing and Menstrual Cycles
+- intent: nutrition
+  examples: |
+    - Nutrition and Diet
+    - Nutritions and Diets
+- intent: behaviors
+  examples: |
+    - Behaviors & Habits / Lifestyle
+    - Behaviors & Habits / Lifestyles
+- intent: something_else
+  examples: |
+    - Something Else
+    - Something Else 2
+########################################### PREGNANT FLOW NUTRITION BUTTONS
+- intent: nutrition_food_types
+  examples: |
+    - Food Types
+    - Food Types 2
+- intent: nutrition_meal_plans
+  examples: |
+    - Meal Plans
+    - Meal Plans 2
+- intent: nutrition_recipes
+  examples: |
+    - Recipes
+    - Recipes 2
+- intent: nutrition_vitamins
+  examples: |
+    - Vitamins
+    - Vitamins 2
+########################################### PREGNANT FLOW BEHAVIORS BUTTONS
+- intent: behaviors_exercise
+  examples: |
+    - Exercise
+    - Exercise 2
+- intent: behaviors_smoking
+  examples: |
+    - Stress Management
+    - Stress Management 2
+- intent: behaviors_stress
+  examples: |
+    - Smoking & Alcohol
+    - Smoking & Alcohol 2
+- intent: behaviors_vitamins
+  examples: |
+    - Vitamins
+    - Vitamins 2
+############################################# START CONCEPTION WINDOW FLOW
+- intent: conception_flow_start
+  examples: |
+    - when can i get pregnant
+    - can i get a pregnant date
+############################################# CONTINUE CONCEPTION WINDOW FLOW
+- intent: conception_flow_sure
+  examples: |
+    - yes i'm sure
+    - i'm sure
+- intent: conception_flow_not_sure
+  examples: |
+    - no, i'm not sure
+    - i'm not sure
+############################################### INFORM INTENT
+- intent: inform
+  examples: |
+    - it contains anything
+    - this is just an inform intent
+    - this intent does not really mean anything
+############################################# START NUTRITION FLOW
+- intent: nutrition_flow_start
+  examples: |
+    - what should i eat
+    - what nutrients do i need
+########################################## NUTRITION FLOW BUTTONS
+- intent: nutrition_conceive
+  examples: |
+    - to conceive
+    - time to conceive
+- intent: nutrition_pregnant
+  examples: |
+    - nutrition while pregnant
+    - nutrition while pregnant 2
+- intent: nutrition_delivered
+  examples: |
+    - nutrition just delivered
+    - nutrition just delivered 2 
+############################################# START BREASTFEEDING FLOW
+- intent: breastfeeding_flow_start
+  examples: |
+    - i am struggling with breastfeeding
+    - i have stitches and it hurts to sit up to nurse my baby
+- intent: breastfeeding_position_good
+  examples: |
+    - position good
+    - position good 2
+- intent: breastfeeding_more_help
+  examples: |
+    - need more help
+    - need more help 2
+################################################### START DAD_SUPPORT FLOW
+- intent: dad_support_flow_start
+  examples: |
+    - how can I support my [wife](partner_type) who is [pregnant](stage)
+    - how can i possibly support my [girlfriend](partner_type) who is [postpartum](stage)
+    - how can I support my [wife](partner_type)
+    - please let me know how I can support my [pregnant](stage) [wife](partner_type)
+    - [pregnant](stage)
+    - [postpartum](stage)
+- intent: dad_support_nutrition
+  examples: |
+    - dad support nutrition
+    - dad support nutrition 2
+- intent: dad_support_recovery
+  examples: |
+    - dad support recovery
+    - dad support recovery 2
+- intent: dad_support_health
+  examples: |
+    - dad support health
+    - dad support mental health

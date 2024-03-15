@@ -1,0 +1,173 @@
+version: "3.1"
+
+rules:
+
+#################################################### INITIAL RULES
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+- rule: Deny
+  steps:
+  - intent: deny
+  - action: utter_deny
+########################################### PREGNANT FLOW START RULES
+- rule: Get pregnant flow Start
+  steps:
+  - intent: pregnant_flow_start
+  - action: utter_pregnant_flow_start
+- rule: Something Else
+  steps:
+  - intent: something_else
+  - action: utter_something_else
+############################################# PREGNANT FLOW TIMING AND MENSTRUAL RULES
+- rule: Timing and Menstrual Cycle
+  steps:
+  - intent: timing
+  - action: action_timing_cycle
+  - action: utter_timing_video
+  - action: utter_timing_continue
+############################################# PREGNANT FLOW NUTRIRION AND DIET RULES
+- rule: Nutrition and Diet
+  steps:
+  - intent: nutrition
+  - action: utter_nutrition_start
+- rule: Nutrition Food Types
+  steps:
+  - intent: nutrition_food_types
+  - action: action_nutrition_food_types
+  - action: utter_nutrition_food_types_video
+- rule: Nutrition Meal Plans
+  steps:
+  - intent: nutrition_meal_plans
+  - action: meal_plans_form
+  - active_loop: meal_plans_form
+- rule: Nutrition Recipes
+  steps:
+  - intent: nutrition_recipes
+  - action: available_food_form
+  - active_loop: available_food_form
+- rule: Nutrition Vitamins
+  steps:
+  - intent: nutrition_vitamins
+  - action: action_nutrition_vitamins
+  - action: utter_nutrition_vitamins_video
+########################################### SUBMIT AVAILABLE FOOD FORM AND MEAL PLANS FORM
+- rule: Submit Available Food Form
+  condition:
+  - active_loop: available_food_form
+  steps:
+  - action: available_food_form
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: action_nutrition_recipes
+  - action: action_reset_slots
+- rule: Submit Meal Plans Form
+  condition:
+  - active_loop: meal_plans_form
+  steps:
+  - action: meal_plans_form
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: action_nutrition_meal_plans
+  - action: action_reset_slots
+############################################# PREGNANT FLOW BEHAVIOR AND HABITS RULES
+- rule: Behaviors & Habits / Lifestyle
+  steps:
+  - intent: behaviors
+  - action: utter_behaviors_start
+- rule: Behaviors_exercise
+  steps:
+  - intent: behaviors_exercise
+  - action: action_behaviors_exercise
+  - action: utter_behaviors_exercise_video
+- rule: Behaviors_stress
+  steps:
+  - intent: behaviors_stress
+  - action: action_behaviors_stress
+  - action: utter_behaviors_stress_video
+- rule: Behaviors_smoking
+  steps:
+  - intent: behaviors_smoking
+  - action: action_behaviors_smoking
+  - action: utter_behaviors_smoking_video
+- rule: Behaviors_vitamins
+  steps:
+  - intent: behaviors_vitamins
+  - action: action_behaviors_vitamins
+  - action: utter_behaviors_vitamins_video
+########################################### CONCEPTION FLOW START RULES
+- rule: Conception flow Start
+  steps:
+  - intent: conception_flow_start
+  - action: utter_conception_flow_start_1
+  - action: utter_conception_flow_start_2
+########################################### CONCEPTION FLOW PERIOD SURE | NOT SURE
+- rule: Conception flow Sure
+  steps:
+  - intent: conception_flow_sure
+  - action: conception_date_form
+  - active_loop: conception_date_form
+- rule: Conception flow Not Sure
+  steps:
+  - intent: conception_flow_not_sure
+  - action: conception_date_form
+  - active_loop: conception_date_form
+########################################### SUBMIT CONCEPTION DATE FORM
+- rule: Submit Conception Date Form
+  condition:
+  - active_loop: conception_date_form
+  steps:
+  - action: conception_date_form
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: action_conception_date
+  - action: action_reset_slots
+########################################### NUTRITION FLOW START RULES
+- rule: Nutrition flow Start
+  steps:
+  - intent: nutrition_flow_start
+  - action: utter_nutrition_flow_start
+############################################# NUTRITION FLOW TO CONCEIVE RULES
+- rule: To Conceive
+  steps:
+  - intent: nutrition_conceive
+  - action: utter_nutrition_conceive
+##################################################### BREASTFEEDING FLOW RULES
+- rule: Breastfeeding flow Start
+  steps:
+  - intent: breastfeeding_flow_start
+  - action: utter_breastfeeding_flow_start
+  - action: utter_breastfeeding_flow_image
+  - action: utter_breastfeeding_flow_video
+  - action: utter_breastfeeding_flow_continue
+- rule: Breastfeeding Position Good
+  steps:
+  - intent: breastfeeding_position_good
+  - action: utter_breastfeeding_position_good
+- rule: Breastfeeding More Help
+  steps:
+  - intent: breastfeeding_more_help
+  - action: utter_breastfeeding_more_help
+  - action: utter_breastfeeding_more_help_image
+  - action: utter_breastfeeding_more_help_video
+##################################################### DAD SUPPORT FLOW RULES
+- rule: Dad Support flow Start
+  steps:
+  - intent: dad_support_flow_start
+  - action: utter_dad_support_flow_start
+- rule: Dad Support Nutrition
+  steps:
+  - intent: dad_support_nutrition
+  - action: utter_dad_support_nutrition
+- rule: Dad Support Recovery
+  steps:
+  - intent: dad_support_recovery
+  - action: utter_dad_support_recovery
+- rule: Dad Support Mental Health
+  steps:
+  - intent: dad_support_health
+  - action: utter_dad_support_health

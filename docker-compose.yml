@@ -1,0 +1,19 @@
+version: '3'
+services:
+  rasa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "5005:5005"
+
+  action_server:
+    build:
+      context: .
+      dockerfile: Dockerfile.actions
+    volumes:
+      - .:/app
+    ports:
+      - "5055:5055"
